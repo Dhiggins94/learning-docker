@@ -76,3 +76,5 @@ app.listen(port, () => console.log(`listening on port ${port}`));
 // we're going to user authentication using express sessions(this can also be done with jwt) and we'll be connecting it with a redis database
 
 // docker exec -it learndocker-redis-1 redis-cli will let us connect to our redis database, KEYS * will let us see a session inside the database. since out current max age is 30 seconds.we can see that session for 30 seconds. to see details for a sesioin put GET "{insert key here}"
+
+// we upload the image to our docker hub repo so we dont have to grabe the image straight from our productiion server(if we had one)
