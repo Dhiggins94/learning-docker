@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const cors = require("cors");
 const redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 
@@ -40,6 +41,9 @@ const connectWithRetry = () => {
 
 connectWithRetry();
 // this part is connecting express session with redis database
+// this part is for the express appllcaiton because its sitting behind a proxy "trust proxy if you need access to an IP address"
+app.enable("trust proxy");
+app.use(cors({}));
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
@@ -59,8 +63,9 @@ app.use(
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.send("<h1>node app is live, thanks docker!!!!!</h1>");
+  console.log("nginx is load balancing");
 });
 // this is so when someone sends a request it'll send it to the post router and reach the routes
 // if the api is there its from your own api in case your back and front end is in the same domain and the version is to label which one your working on
